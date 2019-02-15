@@ -19,6 +19,18 @@ public class RecursiveBinarySearch implements ArraySearch {
      */
     @Override
     public <E extends Comparable> int search(E[] array, E item) {
-        return 0;
+        if (item == null || array == null || array.length == 0) return -1;
+
+        return binarySearch(array, item, 0, array.length - 1);
+    }
+
+    private <E extends Comparable> int binarySearch(E[] array, E item, int lo, int hi) {
+        if (lo == hi) return -1;
+
+        int mid = (lo + hi) / 2;
+
+        if (array[mid].equals(item)) return mid;
+        else if (array[mid].compareTo(item) > 0) return binarySearch(array, item, mid + 1, hi);
+        else return binarySearch(array, item, lo, mid - 1);
     }
 }
