@@ -19,6 +19,6 @@ public class RecursiveLinearSearch implements ArraySearch {
      */
     @Override
     public <E extends Comparable> int search(E[] array, E item) {
-        return 0;
+        return -1;
     }
 }

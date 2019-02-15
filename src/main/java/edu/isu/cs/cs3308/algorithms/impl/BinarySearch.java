@@ -19,6 +19,26 @@ public class BinarySearch implements ArraySearch {
      */
     @Override
     public <E extends Comparable> int search(E[] array, E item) {
-        return 0;
+        if (item == null || array == null || array.length == 0) return -1;
+
+        int lo = 0;
+        int hi = array.length - 1;
+        int mid = (hi + lo) / 2;
+
+        while (lo != hi) {
+            if (array[mid].equals(item)) {
+                return mid;
+            }
+            else if (array[mid].compareTo(item) > 0) {
+                lo = mid + 1;
+                mid = (hi + lo) / 2;
+            }
+            else {
+                hi = mid - 1;
+                mid = (hi + lo) / 2;
+            }
+        }
+
+        return -1;
     }
 }
