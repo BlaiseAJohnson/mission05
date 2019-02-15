@@ -19,6 +19,14 @@ public class LinearSearch implements ArraySearch {
      */
     @Override
     public <E extends Comparable> int search(E[] array, E item) {
-        return 0;
+        if (item == null || array == null || array.length == 0) return -1;
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equals(item)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
