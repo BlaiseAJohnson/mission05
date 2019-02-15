@@ -19,6 +19,14 @@ public class RecursiveLinearSearch implements ArraySearch {
      */
     @Override
     public <E extends Comparable> int search(E[] array, E item) {
-        return -1;
+        if (item == null || array == null || array.length == 0) return -1;
+
+        return linearSearch(array, item, 0);
+    }
+
+    private <E extends Comparable> int linearSearch(E[] array, E item, int index) {
+        if (index == array.length - 1) return -1;
+        else if (array[index].equals(item)) return index;
+        else return linearSearch(array, item, index + 1);
     }
 }
