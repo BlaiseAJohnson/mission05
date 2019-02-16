@@ -14,16 +14,54 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Random;
 
+import static java.lang.System.nanoTime;
+
 /**
  * Driver class for the experimental simulator.
  * @author Isaac Griffith
  */
 public class Driver {
+    private static Random rand = new Random();
+    private static long[] iterLinTimes = new long[4];
+    private static long[] recLinTimes = new long[4];
+    private static long[] iterBinTimes = new long[4];
+    private static long[] recBinTimes = new long[4];
 
-    public static void main(String args[]) {
-        // do the simulation using generateRandomArray()
+    public static void main(String[] args) {
+        BinarySearch binarySearch = new BinarySearch();
+        LinearSearch linearSearch = new LinearSearch();
+        RecursiveBinarySearch recursiveBinarySearch = new RecursiveBinarySearch();
+        RecursiveLinearSearch recursiveLinearSearch = new RecursiveLinearSearch();
 
-        // report the results using report;
+        for (int i = 0; i < 4; i++) {
+            int arraySize = (int)(10 * Math.pow(10, i));
+
+            getAverageSearchTime(binarySearch, iterBinTimes, arraySize, i);
+            getAverageSearchTime(linearSearch, iterLinTimes, arraySize, i);
+            getAverageSearchTime(recursiveBinarySearch, recBinTimes, arraySize, i);
+            getAverageSearchTime(recursiveLinearSearch,recLinTimes, arraySize, i);
+        }
+
+        report(iterLinTimes, recLinTimes, iterBinTimes, recBinTimes, 10, 10);
+    }
+
+    private static void getAverageSearchTime(ArraySearch algorithm, long[] storageArray, int arraySize, int storageIndex) {
+        long totalSearchTime = 0;
+
+        for (int i = 0; i < 2000; i++) {
+            Integer[] searchArray = generateRandomArray(arraySize);
+            int searchTerm = rand.nextInt(2000);
+
+            long startTime = nanoTime();
+            algorithm.search(searchArray, searchTerm);
+            long endTime = nanoTime();
+
+            totalSearchTime += (endTime - startTime);
+        }
+
+        storageArray[storageIndex] = totalSearchTime / 2000;
+
+        System.out.println(String.format("%s algorithm has completed array size %d", algorithm.getClass().toString(), arraySize));
     }
 
     /**
@@ -33,9 +71,7 @@ public class Driver {
      * @return An array of the provided size of random numbers in ascending
      * order.
      */
-    public static Integer[] generateRandomArray(int size) {
-        Random rand = new Random();
-
+    private static Integer[] generateRandomArray(int size) {
         Integer[] array = new Integer[size];
 
         for (int i = 0; i < size; i++) {
@@ -69,9 +105,9 @@ public class Driver {
         file.append(String.format("N,IterLin,RecLin,IterBin,RecBin%s", System.lineSeparator()));
 
         for (int i = 0; i < iterLinTimes.length; i++) {
-            screen.append(String.format("%d %d\t%d\t%d\t%d%s", startIncrement + (i * increment), iterLinTimes[i], recLinTimes[i], iterBinTimes[i], recBinTimes[i], System.lineSeparator()
+            screen.append(String.format("%d %d\t%d\t%d\t%d%s", startIncrement * (int)(Math.pow(increment, i)), iterLinTimes[i], recLinTimes[i], iterBinTimes[i], recBinTimes[i], System.lineSeparator()
             ));
-            file.append(String.format("%d,%d,%d,%d,%d%s", startIncrement + (i * increment), iterLinTimes[i], recLinTimes[i], iterBinTimes[i], recBinTimes[i], System.lineSeparator()
+            file.append(String.format("%d,%d,%d,%d,%d%s", startIncrement * (int)(Math.pow(increment, i)), iterLinTimes[i], recLinTimes[i], iterBinTimes[i], recBinTimes[i], System.lineSeparator()
             ));
         }
 

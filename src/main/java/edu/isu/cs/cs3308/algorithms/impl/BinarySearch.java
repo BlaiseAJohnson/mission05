@@ -25,7 +25,7 @@ public class BinarySearch implements ArraySearch {
         int hi = array.length - 1;
         int mid = (hi + lo) / 2;
 
-        while (lo != hi) {
+        while (lo <= hi) {
             if (array[mid].equals(item)) {
                 return mid;
             }

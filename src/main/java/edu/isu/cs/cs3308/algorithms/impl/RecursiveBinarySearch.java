@@ -25,7 +25,7 @@ public class RecursiveBinarySearch implements ArraySearch {
     }
 
     private <E extends Comparable> int binarySearch(E[] array, E item, int lo, int hi) {
-        if (lo == hi) return -1;
+        if (lo >= hi) return -1;
 
         int mid = (lo + hi) / 2;
 
