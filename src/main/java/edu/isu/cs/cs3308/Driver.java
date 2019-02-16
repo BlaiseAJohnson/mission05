@@ -15,10 +15,59 @@ import java.util.Arrays;
 import java.util.Random;
 
 import static java.lang.System.nanoTime;
+/*
+Answers to Part 1:
+
+        Section 1:
+        1.2n^3 - 7n^2 + 100n - 36 is in O(n^3)
+        2n^3 - 7n^2 + 100n - 36 < (2 - 7 + 100 - 36)n^3
+        59n^3 *IS* in O(n^3) for c > 59, n > 1
+
+        2.10n + 3log(n) is in O(n)
+        10n + 3log(n) < (10 + 3)n
+        13n *IS* in O(n) for c > 13, n > 2 (since log(1) = 0)
+
+        3.(1/1000)n is in O(1)
+        (1/1000)n < n
+        n is in O(n) for c > 1, n > 1
+                n *IS NOT* in O(1)
+
+                4.log(n)^2 + log(n)/30 is in O(log(n)^2)
+                log(n)^2 = 2log(n)
+                log(n)/30 = (1/30)log(n)
+                2log(n) + (1/30)log(n) = (61/30)log(n)
+                log(n)^2 + log(n)/30 < (61/30)log(n)
+        (61/30)log(n) is in O(log(n)) for c > (61/30), n > 2
+        log(n)^2 + log(n)/30 *IS NOT* in O(log(n)^2)
+
+        5. (n^2)/log(n) + 3n is in O(n^2)
+        (n^2)/log(n) + 3n < (1 + 3)n^2
+        4n^2 *IS* in O(n^2) for c > 4 , n > 1
+
+
+
+        Section 2:
+        1. O(n)
+        2. O(n^2)
+        3. O(n^2)
+        4. O(n)
+        5. O(c)
+
+
+
+        Section 3:
+        1. O(n)
+        2. O(n^2)
+        3. O(nm), (where n is the number of books and m is the number of stars.
+        If stars is a ranking then it's doubtful that the star count
+        will ever be very large, so the big-O is probably more likely
+        to be O(n).)
+*/
 
 /**
  * Driver class for the experimental simulator.
  * @author Isaac Griffith
+ * @author Blaise Johnson
  */
 public class Driver {
     private static Random rand = new Random();
@@ -40,6 +89,8 @@ public class Driver {
             getAverageSearchTime(linearSearch, iterLinTimes, arraySize, i);
             getAverageSearchTime(recursiveBinarySearch, recBinTimes, arraySize, i);
             getAverageSearchTime(recursiveLinearSearch,recLinTimes, arraySize, i);
+
+            System.gc();
         }
 
         report(iterLinTimes, recLinTimes, iterBinTimes, recBinTimes, 10, 10);
